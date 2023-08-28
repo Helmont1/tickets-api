@@ -17,12 +17,24 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User getUserById(Integer userId) {
+    public User getById(Integer userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format(USER_NOT_FOUND_MSG, userId)));
     }
 
     public User createUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public User editUser(User user) {
+        var userFromDb = getById(user.getUserId());
+        BeanUtils.copyProperties(user, userFromDb, "userId");
+        return userRepository.save(userFromDb);
+    }
+
+    public User updateStatus(Integer userId) {
+        var user = getById(userId);
+        user.setActive(!user.getActive());
         return userRepository.save(user);
     }
 
