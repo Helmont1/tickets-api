@@ -33,7 +33,6 @@ public class UserController {
     @PostMapping
     public ResponseEntity<SuccessResponse<User>> create(
             @RequestBody UserDTO user) {
-                
         return SuccessResponseUtil.createdResponse(userService.createUser(user));
     }
 
@@ -41,7 +40,6 @@ public class UserController {
     public ResponseEntity<SuccessResponse<User>> update(
             @RequestBody UserDTO user) {
         return SuccessResponseUtil.okResponse(userService.editUser(user));
-
     }
 
     @PutMapping("/status/{userId}")
