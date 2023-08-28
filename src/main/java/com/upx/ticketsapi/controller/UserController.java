@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upx.ticketsapi.config.response.SuccessResponse;
 import com.upx.ticketsapi.model.User;
+import com.upx.ticketsapi.payload.UserDTO;
 import com.upx.ticketsapi.service.UserService;
 import com.upx.ticketsapi.util.SuccessResponseUtil;
 
@@ -31,13 +32,14 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<SuccessResponse<User>> create(
-            @RequestBody User user) {
+            @RequestBody UserDTO user) {
+                
         return SuccessResponseUtil.createdResponse(userService.createUser(user));
     }
 
     @PutMapping("/{userId}")
     public ResponseEntity<SuccessResponse<User>> update(
-            @RequestBody User user) {
+            @RequestBody UserDTO user) {
         return SuccessResponseUtil.okResponse(userService.editUser(user));
 
     }

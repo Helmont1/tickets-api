@@ -22,11 +22,13 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException(String.format(USER_NOT_FOUND_MSG, userId)));
     }
 
-    public User createUser(User user) {
+    public User createUser(UserDTO userDto) {
+        var user = fromDTO(userDto);
         return userRepository.save(user);
     }
 
-    public User editUser(User user) {
+    public User editUser(UserDTO userDto) {
+        var user = fromDTO(userDto);
         var userFromDb = getById(user.getUserId());
         BeanUtils.copyProperties(user, userFromDb, "userId");
         return userRepository.save(userFromDb);
