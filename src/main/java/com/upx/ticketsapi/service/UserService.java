@@ -2,6 +2,7 @@ package com.upx.ticketsapi.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import static com.upx.ticketsapi.util.DTOConverterFactory.fromDTO;
 
 import com.upx.ticketsapi.exception.NotFoundException;
 import com.upx.ticketsapi.model.User;
@@ -23,12 +24,12 @@ public class UserService {
     }
 
     public User createUser(UserDTO userDto) {
-        var user = fromDTO(userDto);
+        var user = (User) fromDTO(userDto, new User());
         return userRepository.save(user);
     }
 
     public User editUser(UserDTO userDto) {
-        var user = fromDTO(userDto);
+        var user = (User) fromDTO(userDto, new User());
         var userFromDb = getById(user.getUserId());
         BeanUtils.copyProperties(user, userFromDb, "userId");
         return userRepository.save(userFromDb);
@@ -40,9 +41,4 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User fromDTO(UserDTO dto) {
-        var user = new User();
-        BeanUtils.copyProperties(dto, user);
-        return user;
-    }
 }
