@@ -1,5 +1,6 @@
 package com.upx.ticketsapi.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.upx.ticketsapi.exception.NotFoundException;
@@ -23,7 +24,20 @@ public class TeamService {
     }
 
     public Team createTeam(TeamDTO teamDTO) {
-        return teamRepository.save(((Team) fromDTO(teamDTO, new Team())));
+        return teamRepository.save( fromDTO(teamDTO, Team.class));
 
+    }
+
+    public Team updateTeam(TeamDTO teamDTO) {
+        var team = fromDTO(teamDTO, Team.class);
+        var teamFromDb = getById(teamDTO.getTeamId());
+        BeanUtils.copyProperties(team, teamFromDb, "teamId");
+        return teamRepository.save(teamFromDb);
+    }
+
+    public Team updateStatus(Integer teamId) {
+        var team = getById(teamId);
+        team.setActive(!team.getActive());
+        return teamRepository.save(team);
     }
 }

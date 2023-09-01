@@ -24,12 +24,12 @@ public class UserService {
     }
 
     public User createUser(UserDTO userDto) {
-        var user = (User) fromDTO(userDto, new User());
+        var user = fromDTO(userDto, User.class);
         return userRepository.save(user);
     }
 
     public User editUser(UserDTO userDto) {
-        var user = (User) fromDTO(userDto, new User());
+        var user = fromDTO(userDto, User.class);
         var userFromDb = getById(user.getUserId());
         BeanUtils.copyProperties(user, userFromDb, "userId");
         return userRepository.save(userFromDb);
