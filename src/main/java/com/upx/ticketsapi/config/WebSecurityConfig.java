@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import com.upx.ticketsapi.util.GrantedAuthoritiesConverterUtil;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @EnableMethodSecurity(jsr250Enabled = true)
 public class WebSecurityConfig {
 
