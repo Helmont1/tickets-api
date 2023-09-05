@@ -1,4 +1,4 @@
-package com.upx.ticketsapi.config;
+package com.upx.ticketsapi.util;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class GrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
+public class GrantedAuthoritiesConverterUtil implements Converter<Jwt, Collection<GrantedAuthority>> {
 
     @Override
     public Collection<GrantedAuthority> convert(Jwt source) {

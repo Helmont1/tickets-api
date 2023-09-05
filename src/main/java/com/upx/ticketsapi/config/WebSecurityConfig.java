@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
+import com.upx.ticketsapi.util.GrantedAuthoritiesConverterUtil;
+
 @Configuration
 @EnableWebSecurity(debug = true)
 @EnableMethodSecurity(jsr250Enabled = true)
@@ -37,7 +39,7 @@ public class WebSecurityConfig {
 
     private JwtAuthenticationConverter jwtAuthenticationConverter() {
         var jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new GrantedAuthoritiesConverter());
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new GrantedAuthoritiesConverterUtil());
         return jwtAuthenticationConverter;
     }
 
