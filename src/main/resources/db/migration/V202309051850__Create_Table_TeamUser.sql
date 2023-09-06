@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS TeamUser (
+CREATE TABLE IF NOT EXISTS Team_User (
     team_user_id INT GENERATED ALWAYS AS IDENTITY,
     team_id INT NOT NULL,
     user_id INT NOT NULL,
@@ -6,16 +6,16 @@ CREATE TABLE IF NOT EXISTS TeamUser (
 );
 
 ALTER TABLE 
-    TeamUser
+    Team_User
 ADD CONSTRAINT
     PK_TEAM_USER PRIMARY KEY (team_user_id);
 
 ALTER TABLE
-    TeamUser
+    Team_User
 ADD CONSTRAINT
     FK_TEAM_USER_TEAM FOREIGN KEY (team_id) REFERENCES Team(team_id);
 
 ALTER TABLE
-    TeamUser
+    Team_User
 ADD CONSTRAINT
     FK_TEAM_USER_USER FOREIGN KEY (user_id) REFERENCES Users(user_id);
