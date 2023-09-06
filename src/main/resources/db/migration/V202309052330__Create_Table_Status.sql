@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS Status (
+    status_id INT GENERATED ALWAYS AS IDENTITY,
+    status_name VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE
+    Status
+ADD
+    CONSTRAINT PK_Status PRIMARY KEY (status_id);
