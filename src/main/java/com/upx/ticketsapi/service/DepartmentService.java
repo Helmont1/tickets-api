@@ -1,6 +1,8 @@
 package com.upx.ticketsapi.service;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.upx.ticketsapi.exception.NotFoundException;
@@ -41,4 +43,8 @@ public class DepartmentService {
         return departmentRepository.save(department);
     }
 
+    public Page<Department> getAll(Pageable pageable) {
+        return departmentRepository.findAll(pageable);
+    }
+ 
 }
