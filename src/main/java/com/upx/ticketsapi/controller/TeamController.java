@@ -12,6 +12,8 @@ import com.upx.ticketsapi.payload.TeamDTO;
 import com.upx.ticketsapi.service.TeamService;
 import com.upx.ticketsapi.util.SuccessResponseUtil;
 
+import jakarta.annotation.security.RolesAllowed;
+
 @RestController
 @RequestMapping("/api/team")
 public class TeamController {
@@ -22,6 +24,7 @@ public class TeamController {
     }
 
     @PostMapping
+    @RolesAllowed("CREATE_TEAM")
     public ResponseEntity<SuccessResponse<Team>> create(
             @RequestBody TeamDTO team) {
         return SuccessResponseUtil.createdResponse(teamService.createTeam(team));
