@@ -12,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.upx.ticketsapi.config.response.LoginResponse;
+import com.upx.ticketsapi.exception.HttpException;
 import com.upx.ticketsapi.model.LoginRequest;
 
 @Service
@@ -43,10 +44,14 @@ public class LoginService {
         map.add("password", loginRequest.getPassword());
 
         var entity = new HttpEntity<>(map, headers);
+        try {
+            var response = restTemplate.postForEntity(issuerUrl + "/protocol/openid-connect/token", entity, LoginResponse.class);
+            return new ResponseEntity<>(
+                response.getBody(), HttpStatus.OK
+            );
 
-        var response = restTemplate.postForEntity(issuerUrl + "/protocol/openid-connect/token", entity, LoginResponse.class);
-        return new ResponseEntity<>(
-            response.getBody(), HttpStatus.OK
-        );
+        } catch(Exception e) {
+            throw new HttpException("Error while trying to login");
+        } 
     }
 }
