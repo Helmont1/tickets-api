@@ -44,8 +44,8 @@ public class UserService {
         return userRepository.save(userFromDb);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> getToQueue() {
+        return userRepository.findToQueue();
     }
 
     public User updateStatus(Integer userId) {

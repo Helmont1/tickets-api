@@ -14,11 +14,7 @@ public class QueueRoutines {
     @Scheduled(fixedRate = 1500000)
     public void checkIfUsersNeedToGoToQueue() {
         try {
-            userService.getAllUsers().forEach(user -> {
-                if (user.getKeycloakId() == null) {
-                    userService.sendToQueue(user);
-                }
-            });
+            userService.getToQueue().forEach(userService::sendToQueue);
         } catch(Exception ignored) {
             // on purpose
         }
