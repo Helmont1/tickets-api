@@ -36,6 +36,13 @@ public class UserController {
         return SuccessResponseUtil.createdResponse(userService.createUser(user));
     }
 
+    @PostMapping("/keycloak")
+    public ResponseEntity<SuccessResponse<User>> registerKeycloakId(
+            @RequestBody Integer userId,
+            @RequestBody String keycloakId) {
+        return SuccessResponseUtil.okResponse(userService.registerKeycloakId(userId, keycloakId));
+    }
+    
     @PutMapping("/{userId}")
     public ResponseEntity<SuccessResponse<User>> update(
             @RequestBody UserDTO user) {
