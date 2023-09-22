@@ -5,6 +5,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import static com.upx.ticketsapi.util.DTOConverterFactory.fromDTO;
 
+import java.util.List;
+
 import com.upx.ticketsapi.exception.HttpException;
 import com.upx.ticketsapi.exception.NotFoundException;
 import com.upx.ticketsapi.model.User;
@@ -40,6 +42,10 @@ public class UserService {
         var userFromDb = getById(user.getUserId());
         BeanUtils.copyProperties(user, userFromDb, "userId", "active", "keycloakId");
         return userRepository.save(userFromDb);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     public User updateStatus(Integer userId) {
