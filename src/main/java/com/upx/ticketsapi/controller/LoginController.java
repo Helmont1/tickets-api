@@ -1,6 +1,7 @@
 package com.upx.ticketsapi.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upx.ticketsapi.config.response.LoginResponse;
 import com.upx.ticketsapi.model.LoginRequest;
+import com.upx.ticketsapi.model.User;
 import com.upx.ticketsapi.service.LoginService;
 
 @RestController
@@ -22,5 +24,10 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         return loginService.login(loginRequest);
+    }
+
+    @GetMapping("/logged")
+    public ResponseEntity<User> test() {
+        return loginService.loggedUser();
     }
 }

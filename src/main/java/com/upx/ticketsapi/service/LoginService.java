@@ -14,20 +14,23 @@ import org.springframework.web.client.RestTemplate;
 import com.upx.ticketsapi.config.response.LoginResponse;
 import com.upx.ticketsapi.exception.HttpException;
 import com.upx.ticketsapi.model.LoginRequest;
+import com.upx.ticketsapi.model.User;
 
 @Service
 public class LoginService {
     private final RestTemplate restTemplate;
+    private final UserService userService;
 
     private String issuerUrl;
     private String clientId;
     private String clientSecret;
 
-    public LoginService(RestTemplate restTemplate, Environment env) {
+    public LoginService(RestTemplate restTemplate, Environment env, UserService userService) {
         this.restTemplate = restTemplate;
         this.issuerUrl = env.getProperty("spring.security.oauth2.client.provider.keycloak.issuer-uri");
         this.clientId = env.getProperty("spring.security.oauth2.client.registration.keycloak.client-id");
         this.clientSecret = env.getProperty("spring.security.oauth2.client.registration.keycloak.client-secret");
+        this.userService = userService;
     }
 
     public ResponseEntity<LoginResponse> login(LoginRequest loginRequest) {
@@ -53,5 +56,12 @@ public class LoginService {
         } catch(Exception e) {
             throw new HttpException("Error while trying to login");
         } 
+    }
+
+    public ResponseEntity<User> loggedUser() {
+        var user = userService.getLoggedUser();
+        return new ResponseEntity<>(
+            user, HttpStatus.OK
+        );
     }
 }

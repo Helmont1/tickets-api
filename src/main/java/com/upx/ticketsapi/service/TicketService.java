@@ -18,9 +18,11 @@ public class TicketService {
     private static final String TICKET_NOT_FOUND_MSG = "Ticket not found with id: ";
 
     private final TicketRepository ticketRepository;
+    private final UserService userService;
 
-    public TicketService(TicketRepository ticketRepository) {
+    public TicketService(TicketRepository ticketRepository, UserService userService) {
         this.ticketRepository = ticketRepository;
+        this.userService = userService;
     }
 
     public Ticket getTicketById(Integer id) {
@@ -40,6 +42,7 @@ public class TicketService {
     }
 
     public Page<Ticket> getUserTickets(PageRequest pageRequest, Integer userId) {
+        userService.getById(userId);
         return ticketRepository.findByUser(pageRequest, userId);
     }
 }

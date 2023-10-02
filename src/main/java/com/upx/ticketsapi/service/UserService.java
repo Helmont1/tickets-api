@@ -13,6 +13,7 @@ import com.upx.ticketsapi.model.User;
 import com.upx.ticketsapi.payload.UserDTO;
 import com.upx.ticketsapi.payload.UserKeycloakDTO;
 import com.upx.ticketsapi.repository.UserRepository;
+import com.upx.ticketsapi.util.KeycloakUserDetails;
 
 @Service
 public class UserService {
@@ -57,7 +58,7 @@ public class UserService {
     public void sendToQueue(User user) {
         try {
             rabbitTemplate.convertAndSend("user-keycloak-queue", fromDTO(user, UserKeycloakDTO.class));
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new HttpException("Error while sending user to queue:" + e.getMessage());
         }
     }
@@ -69,5 +70,10 @@ public class UserService {
                     return userRepository.save(user);
                 })
                 .orElseThrow(() -> new NotFoundException(String.format(USER_NOT_FOUND_MSG, userId)));
+    }
+
+    public User getLoggedUser() {
+        return userRepository.findByEmail(KeycloakUserDetails.getUserEmail())
+                .orElseThrow(() -> new NotFoundException("User not found in database"));
     }
 }

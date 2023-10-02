@@ -55,4 +55,9 @@ public class UserController {
         return SuccessResponseUtil.okResponse(userService.updateStatus(userId));
     }
 
+    @GetMapping("/logged") 
+    public ResponseEntity<SuccessResponse<User>> getLoggedUser() {
+        return SuccessResponseUtil.okResponse(userService.getLoggedUser());
+    }
+
 }
