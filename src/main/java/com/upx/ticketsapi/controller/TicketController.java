@@ -32,12 +32,12 @@ public class TicketController {
         return SuccessResponseUtil.createdResponse(ticketService.save(ticketDTO));
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/requester/{userId}")
     public ResponseEntity<SuccessResponse<Page<Ticket>>> getUserTickets(
         @PathVariable Integer userId,
         @RequestParam(defaultValue = "0") Integer page,
         @RequestParam(defaultValue = "10") Integer size,
-        @RequestParam(defaultValue = "departmentId") String sortBy,
+        @RequestParam(defaultValue = "ticketId") String sortBy,
         @RequestParam(defaultValue = "desc") String direction) {
             return SuccessResponseUtil.okResponse(ticketService.getUserTickets(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy)),userId));
         }
