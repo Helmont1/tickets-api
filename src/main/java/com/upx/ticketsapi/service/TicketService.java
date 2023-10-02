@@ -1,6 +1,8 @@
 package com.upx.ticketsapi.service;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.upx.ticketsapi.exception.NotFoundException;
@@ -35,5 +37,9 @@ public class TicketService {
         var ticketFromDb = getTicketById(ticketDTO.getTicketId());
         BeanUtils.copyProperties(ticket, ticketFromDb, "ticketId");
         return ticketRepository.save(ticketFromDb);
+    }
+
+    public Page<Ticket> getUserTickets(PageRequest pageRequest, Integer userId) {
+        return ticketRepository.findByUser(pageRequest, userId);
     }
 }
