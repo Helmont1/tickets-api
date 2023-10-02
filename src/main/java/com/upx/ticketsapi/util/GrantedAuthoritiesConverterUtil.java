@@ -16,10 +16,11 @@ public class GrantedAuthoritiesConverterUtil implements Converter<Jwt, Collectio
     @Override
     public Collection<GrantedAuthority> convert(Jwt source) {
         Map<String, Object> realmAccess = source.getClaimAsMap("realm_access");
+        String email = source.getClaimAsString("email");
 
         if (Objects.nonNull(realmAccess)) {
             List<String> roles = (List<String>) realmAccess.get("roles");
-
+            KeycloakUserDetails.setUserEmail(email);
             if (Objects.nonNull(roles)) {
                 return roles.stream()
                         .map(rn -> new SimpleGrantedAuthority("ROLE_" + rn))
