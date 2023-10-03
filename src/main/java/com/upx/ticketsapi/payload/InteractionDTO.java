@@ -1,6 +1,6 @@
 package com.upx.ticketsapi.payload;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.upx.ticketsapi.model.Ticket;
 import com.upx.ticketsapi.model.User;
@@ -13,6 +13,6 @@ public class InteractionDTO {
     private Ticket ticket;
     private User user;
     private Boolean intern;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     private String content;
 }

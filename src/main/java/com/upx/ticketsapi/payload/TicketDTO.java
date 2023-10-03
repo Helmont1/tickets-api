@@ -1,6 +1,6 @@
 package com.upx.ticketsapi.payload;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.upx.ticketsapi.model.Department;
 import com.upx.ticketsapi.model.Priority;
@@ -18,8 +18,8 @@ public class TicketDTO {
     private String content;
     private Priority priority;
     private Status status;
-    private LocalDate openingDate;
-    private LocalDate modificationDate;
+    private LocalDateTime openingDate;
+    private LocalDateTime modificationDate;
     private Department department;
     private TeamUser teamUser;
 }

@@ -33,7 +33,7 @@ public class InteractionController {
 
     @PostMapping
     public ResponseEntity<SuccessResponse<Interaction>> create( @RequestBody InteractionDTO interactionDTO) {
-        return SuccessResponseUtil.okResponse(interactionService.create(interactionDTO));
+        return SuccessResponseUtil.createdResponse(interactionService.create(interactionDTO));
     }
 
     @PutMapping("/{interactionId}")
