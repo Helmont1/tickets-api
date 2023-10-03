@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,11 +35,23 @@ public class TicketController {
 
     @GetMapping("/requester/{userId}")
     public ResponseEntity<SuccessResponse<Page<Ticket>>> getUserTickets(
-        @PathVariable Integer userId,
-        @RequestParam(defaultValue = "0") Integer page,
-        @RequestParam(defaultValue = "10") Integer size,
-        @RequestParam(defaultValue = "ticketId") String sortBy,
-        @RequestParam(defaultValue = "desc") String direction) {
-            return SuccessResponseUtil.okResponse(ticketService.getUserTickets(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy)),userId));
-        }
+            @PathVariable Integer userId,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "ticketId") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+        return SuccessResponseUtil.okResponse(ticketService.getUserTickets(
+                PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy)), userId));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<SuccessResponse<Ticket>> updateTicket(
+            @RequestBody TicketDTO ticketDTO) {
+        return SuccessResponseUtil.okResponse(ticketService.update(ticketDTO));
+    }
+
+    @GetMapping("/{ticketId}")
+    public ResponseEntity<SuccessResponse<Ticket>> getTicketById(@PathVariable Integer ticketId) {
+        return SuccessResponseUtil.okResponse(ticketService.getTicketById(ticketId));
+    }
 }
