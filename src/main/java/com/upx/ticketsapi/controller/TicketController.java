@@ -54,4 +54,15 @@ public class TicketController {
     public ResponseEntity<SuccessResponse<Ticket>> getTicketById(@PathVariable Integer ticketId) {
         return SuccessResponseUtil.okResponse(ticketService.getTicketById(ticketId));
     }
+
+    @GetMapping("/analyst/{userId}")
+    public ResponseEntity<SuccessResponse<Page<Ticket>>> getActiveTicketsByUser(
+            @PathVariable Integer userId,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "ticketId") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+        return SuccessResponseUtil.okResponse(ticketService.getActiveTicketsByUser(
+                PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy)), userId));
+    }
 }

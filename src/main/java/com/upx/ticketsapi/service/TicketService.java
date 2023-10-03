@@ -45,4 +45,8 @@ public class TicketService {
         userService.getById(userId);
         return ticketRepository.findByUser(pageRequest, userId);
     }
+
+    public Page<Ticket> getActiveTicketsByUser(PageRequest pageRequest, Integer userId) {
+        return ticketRepository.findActiveTicketsByUser(pageRequest, userId);
+    }
 }
