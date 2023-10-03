@@ -15,9 +15,11 @@ import java.util.List;
 public class InteractionService {
     private static final String DEPARTMENT_NOT_FOUND_MSG = "Department with id %s";
     private final InteractionRepository interactionRepository;
+    private final TicketService ticketService;
 
-    public InteractionService(InteractionRepository interactionRepository) {
+    public InteractionService(InteractionRepository interactionRepository, TicketService ticketService) {
         this.interactionRepository = interactionRepository;
+        this.ticketService = ticketService;
     }
 
     public Interaction getById(Integer interactionId) {
@@ -26,6 +28,7 @@ public class InteractionService {
     }
 
     public Interaction create(InteractionDTO interactionDTO) {
+        ticketService.getTicketById(interactionDTO.getTicket().getTicketId());
         return interactionRepository.save(fromDTO(interactionDTO, Interaction.class));
     }
 
@@ -37,6 +40,7 @@ public class InteractionService {
     }
 
     public List<Interaction> getAllByTicketId(Integer ticketId) {
+        ticketService.getTicketById(ticketId);
         return interactionRepository.findAllByTicketId(ticketId);
     }
 }
