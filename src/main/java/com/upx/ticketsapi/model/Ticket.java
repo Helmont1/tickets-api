@@ -1,6 +1,6 @@
 package com.upx.ticketsapi.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,10 +44,10 @@ public class Ticket {
     private Status status;
 
     @Column(name = "opening_date")
-    private LocalDate openingDate;
+    private LocalDateTime openingDate;
 
     @Column(name = "modification_date")
-    private LocalDate modificationDate;
+    private LocalDateTime modificationDate;
 
     @JoinColumn(name = "department_id")
     @ManyToOne
