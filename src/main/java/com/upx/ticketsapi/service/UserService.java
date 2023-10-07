@@ -85,8 +85,7 @@ public class UserService {
     public Page<User> getAnalysts(Pageable pageable) {
 
         var users = new ArrayList<String>();
-        var kcS = keycloakService.getAnalystsInRealm();
-        keycloakService.getAnalystsInRealm().forEach(user -> users.add(user.getEmail()));
+        keycloakService.getByRole("analyst").forEach(user -> users.add(user.getEmail()));
 
         return userRepository.findAllByEmail(users, pageable);
     }
