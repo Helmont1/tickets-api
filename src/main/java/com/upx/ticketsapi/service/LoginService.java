@@ -74,5 +74,27 @@ public class LoginService {
         return SuccessResponseUtil.okResponse(KeycloakUserDetails.getUserRoles());
     }
 
-    
+    public ResponseEntity<LoginResponse> refreshToken(String refreshToken) {
+        var headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+
+        map.add("client_id", clientId);
+        map.add("grant_type", "refresh_token");
+        map.add("refresh_token", refreshToken);
+
+        var entity = new HttpEntity<>(map, headers);
+        try {
+            var response = restTemplate.postForEntity(issuerUrl + "/protocol/openid-connect/token", entity, LoginResponse.class);
+            return new ResponseEntity<>(
+                response.getBody(), HttpStatus.OK
+            );
+
+        } catch(Exception e) {
+            throw new HttpException("Error while trying to refresh token (probably refresh_token expired)" + e.getMessage());
+        }
+    }
+
 }

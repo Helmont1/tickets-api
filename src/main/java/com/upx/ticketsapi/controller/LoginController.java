@@ -38,4 +38,9 @@ public class LoginController {
     public ResponseEntity<SuccessResponse<List<String>>> getRoles() {
         return loginService.getRoles();
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponse> refreshToken(@RequestBody String refreshToken) {
+        return loginService.refreshToken(refreshToken);
+    }
 }
