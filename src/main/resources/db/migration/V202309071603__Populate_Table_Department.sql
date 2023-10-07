@@ -4,6 +4,5 @@ VALUES
     ('Pedagógico', true),
     ('Seleção', true),
     ('Social', true),
-    ('Pedagógico', true),
     ('Departamento Pessoal', true),
     ('Comercial', true);

@@ -5,10 +5,8 @@ INSERT INTO
     (1,2,true),
     (1,3,true),
     (1,4,true),
-    (1,5,true),
-    (2,6,true),
     (3,1,true),
     (4,2,true),
     (4,3,true),
     (4,4,true),
-    (4,5,true);
+    (2,5,true);
