@@ -2,9 +2,12 @@ package com.upx.ticketsapi.service;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import static com.upx.ticketsapi.util.DTOConverterFactory.fromDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.upx.ticketsapi.exception.HttpException;
@@ -20,10 +23,12 @@ public class UserService {
     private static final String USER_NOT_FOUND_MSG = "User with id %s";
     private final UserRepository userRepository;
     private final RabbitTemplate rabbitTemplate;
+    private final KeycloakService keycloakService;
 
-    public UserService(UserRepository userRepository, RabbitTemplate rabbitTemplate) {
+    public UserService(UserRepository userRepository, RabbitTemplate rabbitTemplate, KeycloakService keycloakService) {
         this.userRepository = userRepository;
         this.rabbitTemplate = rabbitTemplate;
+        this.keycloakService = keycloakService;
     }
 
     public User getById(Integer userId) {
@@ -76,4 +81,18 @@ public class UserService {
         return userRepository.findByEmail(KeycloakUserDetails.getUserEmail())
                 .orElseThrow(() -> new NotFoundException("User not found in database"));
     }
+
+    public Page<User> getAnalysts(Pageable pageable) {
+
+        var users = new ArrayList<String>();
+        var kcS = keycloakService.getAnalystsInRealm();
+        keycloakService.getAnalystsInRealm().forEach(user -> users.add(user.getEmail()));
+
+        return userRepository.findAllByEmail(users, pageable);
+    }
+
+    // public Page<User> getRequesters( Integer userId) {
+    // return userRepository.findByEmail(
+    // KeycloakUserDetails.getUserEmail()).orElseThrow(() -> new
+    // NotFoundException(String.format(USER_NOT_FOUND_MSG, userId)));
 }

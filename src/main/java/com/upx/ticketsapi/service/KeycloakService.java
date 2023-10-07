@@ -1,5 +1,6 @@
 package com.upx.ticketsapi.service;
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,15 +18,16 @@ public class KeycloakService {
 
     public List<UserRepresentation> getAnalystsInRealm() {
         return keycloak.realm("upx-tickets").users()
-                .list().stream()
-                .filter(user -> user.getRealmRoles().contains("analyst"))
+                .list()
+                .stream()
+                .filter(user -> user.getRealmRoles() != null && user.getRealmRoles().contains("analyst"))
                 .collect(Collectors.toList());
     }
 
     public List<UserRepresentation> getRequestersInRealm() {
         return keycloak.realm("upx-tickets").users()
                 .list().stream()
-                .filter(user -> user.getRealmRoles().contains("requester"))
+                .filter(user -> user.getRealmRoles() != null ? user.getRealmRoles().contains("requester") : false)
                 .collect(Collectors.toList());
     }
 }
