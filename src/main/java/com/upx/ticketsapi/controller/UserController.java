@@ -1,5 +1,8 @@
 package com.upx.ticketsapi.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upx.ticketsapi.config.response.SuccessResponse;
@@ -42,7 +46,7 @@ public class UserController {
             @RequestBody String keycloakId) {
         return SuccessResponseUtil.okResponse(userService.registerKeycloakId(userId, keycloakId));
     }
-    
+
     @PutMapping("/{userId}")
     public ResponseEntity<SuccessResponse<User>> update(
             @RequestBody UserDTO user) {
@@ -55,9 +59,25 @@ public class UserController {
         return SuccessResponseUtil.okResponse(userService.updateStatus(userId));
     }
 
-    @GetMapping("/logged") 
+    @GetMapping("/logged")
     public ResponseEntity<SuccessResponse<User>> getLoggedUser() {
         return SuccessResponseUtil.okResponse(userService.getLoggedUser());
     }
+
+    @GetMapping("/analysts/")
+    public ResponseEntity<SuccessResponse<Page<User>>> getAnalysts(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "userId") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+        return SuccessResponseUtil.okResponse(userService.getAnalysts(
+                PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy))));
+    }
+
+    // @GetMapping("/requesters")
+    // public ResponseEntity<SuccessResponse<User>> getRequesters(
+    // @PathVariable Integer userId) {
+    // return SuccessResponseUtil.okResponse(userService.getRequesters(userId));
+    // }
 
 }
