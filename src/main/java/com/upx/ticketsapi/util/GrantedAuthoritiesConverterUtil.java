@@ -22,6 +22,7 @@ public class GrantedAuthoritiesConverterUtil implements Converter<Jwt, Collectio
             List<String> roles = (List<String>) realmAccess.get("roles");
             KeycloakUserDetails.setUserEmail(email);
             if (Objects.nonNull(roles)) {
+                KeycloakUserDetails.setUserRoles(roles);
                 return roles.stream()
                         .map(rn -> new SimpleGrantedAuthority("ROLE_" + rn))
                         .collect(Collectors.toList());

@@ -1,5 +1,7 @@
 package com.upx.ticketsapi.service;
 
+import java.util.List;
+
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,9 +14,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.upx.ticketsapi.config.response.LoginResponse;
+import com.upx.ticketsapi.config.response.SuccessResponse;
 import com.upx.ticketsapi.exception.HttpException;
 import com.upx.ticketsapi.model.LoginRequest;
 import com.upx.ticketsapi.model.User;
+import com.upx.ticketsapi.util.KeycloakUserDetails;
+import com.upx.ticketsapi.util.SuccessResponseUtil;
 
 @Service
 public class LoginService {
@@ -54,7 +59,7 @@ public class LoginService {
             );
 
         } catch(Exception e) {
-            throw new HttpException("Error while trying to login");
+            throw new HttpException("Error while trying to login" + e.getMessage());
         } 
     }
 
@@ -64,4 +69,10 @@ public class LoginService {
             user, HttpStatus.OK
         );
     }
+
+    public ResponseEntity<SuccessResponse<List<String>>> getRoles() {
+        return SuccessResponseUtil.okResponse(KeycloakUserDetails.getUserRoles());
+    }
+
+    
 }
