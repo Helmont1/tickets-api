@@ -90,8 +90,10 @@ public class UserService {
         return userRepository.findAllByEmail(users, pageable);
     }
 
-    // public Page<User> getRequesters( Integer userId) {
-    // return userRepository.findByEmail(
-    // KeycloakUserDetails.getUserEmail()).orElseThrow(() -> new
-    // NotFoundException(String.format(USER_NOT_FOUND_MSG, userId)));
+    public Page<User> getRequesters(Pageable pageable) {
+        var users = new ArrayList<String>();
+        keycloakService.getByRole("requester").forEach(user -> users.add(user.getEmail()));
+
+        return userRepository.findAllByEmail(users, pageable);
+    }
 }

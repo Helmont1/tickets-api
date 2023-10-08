@@ -74,10 +74,13 @@ public class UserController {
                 PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy))));
     }
 
-    // @GetMapping("/requesters")
-    // public ResponseEntity<SuccessResponse<User>> getRequesters(
-    // @PathVariable Integer userId) {
-    // return SuccessResponseUtil.okResponse(userService.getRequesters(userId));
-    // }
-
+    @GetMapping("/requesters/")
+    public ResponseEntity<SuccessResponse<Page<User>>> getRequesters(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "userId") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+        return SuccessResponseUtil.okResponse(userService.getRequesters(
+                PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy))));
+    }
 }
