@@ -64,7 +64,7 @@ public class UserController {
         return SuccessResponseUtil.okResponse(userService.getLoggedUser());
     }
 
-    @GetMapping("/analysts/")
+    @GetMapping("/analysts")
     public ResponseEntity<SuccessResponse<Page<User>>> getAnalysts(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
@@ -74,7 +74,7 @@ public class UserController {
                 PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy))));
     }
 
-    @GetMapping("/requesters/")
+    @GetMapping("/requesters")
     public ResponseEntity<SuccessResponse<Page<User>>> getRequesters(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
