@@ -19,6 +19,8 @@ import com.upx.ticketsapi.payload.TicketDTO;
 import com.upx.ticketsapi.service.TicketService;
 import com.upx.ticketsapi.util.SuccessResponseUtil;
 
+import jakarta.annotation.security.RolesAllowed;
+
 @RestController
 @RequestMapping("/api/ticket")
 public class TicketController {
@@ -45,6 +47,7 @@ public class TicketController {
     }
 
     @PutMapping("/update")
+    @RolesAllowed("edit-ticket")
     public ResponseEntity<SuccessResponse<Ticket>> updateTicket(
             @RequestBody TicketDTO ticketDTO) {
         return SuccessResponseUtil.okResponse(ticketService.update(ticketDTO));
