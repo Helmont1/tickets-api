@@ -17,6 +17,8 @@ import com.upx.ticketsapi.payload.InteractionDTO;
 import com.upx.ticketsapi.service.InteractionService;
 import com.upx.ticketsapi.util.SuccessResponseUtil;
 
+import jakarta.annotation.security.RolesAllowed;
+
 @RestController
 @RequestMapping("/api/interaction")
 public class InteractionController {
@@ -37,6 +39,7 @@ public class InteractionController {
     }
 
     @PutMapping("/{interactionId}")
+    @RolesAllowed("update-interactions")
     public ResponseEntity<SuccessResponse<Interaction>> update(@PathVariable Integer interactionId,
             @RequestBody InteractionDTO interactionDTO) {
         interactionDTO.setInteractionId(interactionId);

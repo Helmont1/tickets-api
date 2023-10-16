@@ -28,6 +28,8 @@ public class WebSocketController {
         return interactionService.create(interactionDTO);
     }
 
+    @MessageMapping("/chat/{ticketId}/addUser")
+    @SendTo("/topic/chat/{ticketId}")
     public List<Interaction> addUser(
             @DestinationVariable Integer ticketId,
             @Payload InteractionDTO interactionDTO,

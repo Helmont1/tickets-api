@@ -47,7 +47,7 @@ public class TicketController {
     }
 
     @PutMapping("/update")
-    @RolesAllowed("edit-ticket")
+    @RolesAllowed("update-ticket")
     public ResponseEntity<SuccessResponse<Ticket>> updateTicket(
             @RequestBody TicketDTO ticketDTO) {
         return SuccessResponseUtil.okResponse(ticketService.update(ticketDTO));

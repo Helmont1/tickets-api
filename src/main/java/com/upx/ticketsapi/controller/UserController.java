@@ -19,6 +19,8 @@ import com.upx.ticketsapi.payload.UserDTO;
 import com.upx.ticketsapi.service.UserService;
 import com.upx.ticketsapi.util.SuccessResponseUtil;
 
+import jakarta.annotation.security.RolesAllowed;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -29,12 +31,14 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
+    @RolesAllowed("get-users")
     public ResponseEntity<SuccessResponse<User>> getOne(@PathVariable Integer userId) {
         var user = userService.getById(userId);
         return SuccessResponseUtil.okResponse(user);
     }
 
     @PostMapping
+    @RolesAllowed("create-users")
     public ResponseEntity<SuccessResponse<User>> create(
             @RequestBody UserDTO user) {
         return SuccessResponseUtil.createdResponse(userService.createUser(user));
@@ -48,12 +52,14 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
+    @RolesAllowed("update-users")
     public ResponseEntity<SuccessResponse<User>> update(
             @RequestBody UserDTO user) {
         return SuccessResponseUtil.okResponse(userService.editUser(user));
     }
 
     @PutMapping("/status/{userId}")
+    @RolesAllowed("deactivate-users")
     public ResponseEntity<SuccessResponse<User>> updateStatus(
             @PathVariable Integer userId) {
         return SuccessResponseUtil.okResponse(userService.updateStatus(userId));
@@ -65,6 +71,7 @@ public class UserController {
     }
 
     @GetMapping("/analysts")
+    @RolesAllowed("get-analysts")
     public ResponseEntity<SuccessResponse<Page<User>>> getAnalysts(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
@@ -75,6 +82,7 @@ public class UserController {
     }
 
     @GetMapping("/requesters")
+    @RolesAllowed("get-requesters")
     public ResponseEntity<SuccessResponse<Page<User>>> getRequesters(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
