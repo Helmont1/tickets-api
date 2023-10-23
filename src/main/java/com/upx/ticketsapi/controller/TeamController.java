@@ -24,7 +24,7 @@ public class TeamController {
     }
 
     @PostMapping
-    @RolesAllowed("create_teams")
+    @RolesAllowed("create-teams")
     public ResponseEntity<SuccessResponse<Team>> create(
             @RequestBody TeamDTO team) {
         return SuccessResponseUtil.createdResponse(teamService.createTeam(team));
