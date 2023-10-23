@@ -27,11 +27,11 @@ public class PriorityService {
                 () -> new NotFoundException(String.format(DEPARTMENT_NOT_FOUND_MSG, priorityId)));
     }
 
-    public Priority createDepartment(PriorityDTO priorityDTO) {
+    public Priority create(PriorityDTO priorityDTO) {
         return priorityRepository.save(fromDTO(priorityDTO, Priority.class));
     }
 
-    public Priority updatePriority(PriorityDTO priorityDTO) {
+    public Priority update(PriorityDTO priorityDTO) {
         var priority = fromDTO(priorityDTO, Priority.class);
         var priorityFromDb = getById(priorityDTO.getPriorityId());
         BeanUtils.copyProperties(priority, priorityFromDb, "priorityId");
