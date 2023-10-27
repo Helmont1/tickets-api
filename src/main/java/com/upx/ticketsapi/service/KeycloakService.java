@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.representations.idm.GroupRepresentation;
-import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -21,22 +19,14 @@ public class KeycloakService {
     }
 
     public List<UserRepresentation> getByRole(String role) {
+        var users = keycloak.realm(realm).roles()
+                .get(role).getUserMembers();
 
-        var usersList = keycloak.realm(realm).users()
-                .list()
-                .stream()
-                .collect(Collectors.toList());
+        keycloak.realm(realm).roles()
+                .get(role).getRoleGroupMembers()
+                .forEach(group -> users.addAll(keycloak.realm(realm).groups().group(group.getId()).members()));
 
-        for (var userRepresentation : usersList) {
-            var userResource = keycloak.realm(realm)
-                    .users().get(userRepresentation.getId());
-            userRepresentation.setRealmRoles(userResource.roles().getAll().getRealmMappings().stream().map(RoleRepresentation::getName).collect(Collectors.toList()));
-            userRepresentation.setGroups(userResource.groups().stream().map(GroupRepresentation::getName).collect(Collectors.toList()));
-        }
-
-        return usersList.stream()
-                .filter(user -> user.getRealmRoles() != null && user.getRealmRoles().contains(role))
-                .collect(Collectors.toList());
+        return users.stream().distinct().collect(Collectors.toList());
     }
 
 }
