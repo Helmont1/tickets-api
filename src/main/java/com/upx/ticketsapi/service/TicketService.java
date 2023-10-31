@@ -12,6 +12,8 @@ import com.upx.ticketsapi.repository.TicketRepository;
 
 import static com.upx.ticketsapi.util.DTOConverterFactory.fromDTO;
 
+import java.util.List;
+
 
 @Service
 public class TicketService {
@@ -51,7 +53,7 @@ public class TicketService {
         return ticketRepository.findByUser(pageRequest, userId);
     }
 
-    public Page<Ticket> getActiveTicketsByUser(PageRequest pageRequest, Integer userId) {
-        return ticketRepository.findActiveTicketsByUser(pageRequest, userId);
+    public Page<Ticket> getActiveTicketsByUser(PageRequest pageRequest, Integer userId, List<Integer> statusIds) {
+        return ticketRepository.findActiveTicketsByUser(pageRequest, userId, statusIds);
     }
 }

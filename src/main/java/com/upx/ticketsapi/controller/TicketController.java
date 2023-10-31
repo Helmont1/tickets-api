@@ -1,5 +1,7 @@
 package com.upx.ticketsapi.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -58,14 +60,15 @@ public class TicketController {
         return SuccessResponseUtil.okResponse(ticketService.getTicketById(ticketId));
     }
 
-    @GetMapping("/analyst/{userId}")
+    @PostMapping("/analyst/{userId}")
     public ResponseEntity<SuccessResponse<Page<Ticket>>> getActiveTicketsByUser(
             @PathVariable Integer userId,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "ticketId") String sortBy,
-            @RequestParam(defaultValue = "desc") String direction) {
+            @RequestParam(defaultValue = "desc") String direction,
+            @RequestBody List<Integer> statusIds) {
         return SuccessResponseUtil.okResponse(ticketService.getActiveTicketsByUser(
-                PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy)), userId));
+                PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy)), userId, statusIds));
     }
 }
