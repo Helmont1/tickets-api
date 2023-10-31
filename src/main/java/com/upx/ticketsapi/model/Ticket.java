@@ -35,6 +35,10 @@ public class Ticket {
     @Column(name = "content")
     private String content;
 
+    @JoinColumn(name = "category_id")
+    @ManyToOne
+    private Category category;
+
     @JoinColumn(name = "priority_id")
     @ManyToOne
     private Priority priority;

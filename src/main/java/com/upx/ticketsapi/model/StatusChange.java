@@ -1,5 +1,7 @@
 package com.upx.ticketsapi.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,29 +14,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "status_change")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "team_user")
-public class TeamUser {
-    
+public class StatusChange {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "team_user_id")
-    private Integer teamUserId;
+    @Column(name = "status_change_id")
+    private Integer statusChangeId;
 
+    @JoinColumn(name = "ticket_id")
     @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
+    private Ticket ticket;
 
+    @JoinColumn(name = "status_id")
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Status status;
 
-    @Column(name = "active")
-    private Boolean active;
-
-    @Column(name = "avg_ticket_resolution_time")
-    private Long avgTicketResolutionTime;
+    @Column(name = "change_date")
+    private LocalDateTime changeDate;
 }

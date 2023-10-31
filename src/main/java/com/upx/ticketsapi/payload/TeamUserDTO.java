@@ -11,4 +11,5 @@ public class TeamUserDTO {
     private Team team;
     private User user;
     private Boolean active;
+    private Long avgTicketResolutionTime;
 }
