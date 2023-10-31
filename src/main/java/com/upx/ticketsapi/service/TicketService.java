@@ -19,10 +19,12 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
     private final UserService userService;
+    private final StatusChangeService statusChangeService;
 
-    public TicketService(TicketRepository ticketRepository, UserService userService) {
+    public TicketService(TicketRepository ticketRepository, UserService userService, StatusChangeService statusChangeService) {
         this.ticketRepository = ticketRepository;
         this.userService = userService;
+        this.statusChangeService = statusChangeService;
     }
 
     public Ticket getTicketById(Integer id) {
@@ -37,6 +39,9 @@ public class TicketService {
     public Ticket update(TicketDTO ticketDTO) {
         var ticket = fromDTO(ticketDTO, Ticket.class);
         var ticketFromDb = getTicketById(ticketDTO.getTicketId());
+        if (!ticketFromDb.getStatus().getStatusId().equals(ticket.getStatus().getStatusId())) {
+            statusChangeService.create(ticketFromDb, ticket.getStatus());
+        }
         BeanUtils.copyProperties(ticket, ticketFromDb, "ticketId");
         return ticketRepository.save(ticketFromDb);
     }
