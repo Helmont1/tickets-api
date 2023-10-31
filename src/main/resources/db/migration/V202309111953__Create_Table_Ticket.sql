@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS Ticket (
     title VARCHAR(255) NOT NULL,
     requester_id INT NOT NULL,
     content VARCHAR(10000) NOT NULL,
+    category_id INT NOT NULL,
     priority_id INT NOT NULL,
     status_id INT NOT NULL,
     opening_date TIMESTAMP NOT NULL,
@@ -45,3 +46,8 @@ ALTER TABLE
 ADD
     CONSTRAINT
         FK_Ticket_Team_User FOREIGN KEY (team_user_id) REFERENCES Team_User(team_user_id);
+
+ALTER TABLE
+    Ticket
+ADD
+    CONSTRAINT FK_Ticket_Category FOREIGN KEY (category_id) REFERENCES Category(category_id);

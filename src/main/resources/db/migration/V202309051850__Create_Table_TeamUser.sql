@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS Team_User (
     team_user_id INT GENERATED ALWAYS AS IDENTITY,
     team_id INT NOT NULL,
     user_id INT NOT NULL,
-    active BOOLEAN NOT NULL
+    active BOOLEAN NOT NULL,
+    avg_ticket_resolution_time BIGINT
 );
 
 ALTER TABLE 
