@@ -7,9 +7,9 @@ CREATE TABLE IF NOT EXISTS Ticket (
     priority_id INT NOT NULL,
     status_id INT NOT NULL,
     opening_date TIMESTAMP NOT NULL,
-    modification_date TIMESTAMP NOT NULL,
+    modification_date TIMESTAMP,
     department_id INT NOT NULL,
-    team_user_id INT NOT NULL
+    team_user_id INT
 );
 
 ALTER TABLE
