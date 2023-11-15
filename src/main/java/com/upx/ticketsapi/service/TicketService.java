@@ -1,11 +1,14 @@
 package com.upx.ticketsapi.service;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.upx.ticketsapi.exception.NotFoundException;
+import com.upx.ticketsapi.exception.SqlException;
 import com.upx.ticketsapi.model.Ticket;
 import com.upx.ticketsapi.payload.RelatoryDTO;
 import com.upx.ticketsapi.payload.RelatoryFilterDTO;
@@ -14,8 +17,9 @@ import com.upx.ticketsapi.repository.TicketRepository;
 
 import static com.upx.ticketsapi.util.DTOConverterFactory.fromDTO;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.List;
-
 
 @Service
 public class TicketService {
@@ -25,7 +29,8 @@ public class TicketService {
     private final UserService userService;
     private final StatusChangeService statusChangeService;
 
-    public TicketService(TicketRepository ticketRepository, UserService userService, StatusChangeService statusChangeService) {
+    public TicketService(TicketRepository ticketRepository, UserService userService,
+            StatusChangeService statusChangeService) {
         this.ticketRepository = ticketRepository;
         this.userService = userService;
         this.statusChangeService = statusChangeService;
@@ -61,5 +66,28 @@ public class TicketService {
 
     public RelatoryDTO generateRelatory(RelatoryFilterDTO filter) {
         return ticketRepository.findRelatoryByFilter(filter);
+    }
+
+    public InputStreamResource exportRelatory(RelatoryFilterDTO filter) {
+        var relatory = generateRelatory(filter);
+        var out = new ByteArrayOutputStream();
+        try (var workbook = new XSSFWorkbook()) {
+            var sheet = workbook.createSheet("Relatório");
+            var header = sheet.createRow(0);
+            header.createCell(0).setCellValue("Tickets não atribuídos");
+            header.createCell(1).setCellValue("Tickets atribuídos");
+            header.createCell(2).setCellValue("Tickets em espera");
+            header.createCell(3).setCellValue("Total de tickets");
+            var row = sheet.createRow(1);
+            row.createCell(0).setCellValue(relatory.getNotAssignedTickets());
+            row.createCell(1).setCellValue(relatory.getAssignedTickets());
+            row.createCell(2).setCellValue(relatory.getOnHoldTickets());
+            row.createCell(3).setCellValue(relatory.getTotalTickets());
+            
+            workbook.write(out);
+            return new InputStreamResource(new ByteArrayInputStream(out.toByteArray()));
+        } catch (Exception e) {
+            throw new SqlException("Error while exporting relatory");
+        }
     }
 }

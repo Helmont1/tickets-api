@@ -2,6 +2,7 @@ package com.upx.ticketsapi.controller;
 
 import java.util.List;
 
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -79,5 +80,12 @@ public class TicketController {
     public ResponseEntity<SuccessResponse<RelatoryDTO>> generateRelatory(
             @RequestBody RelatoryFilterDTO filter) {
         return SuccessResponseUtil.okResponse(ticketService.generateRelatory(filter));
+    }
+
+    @RolesAllowed("generate-relatory")
+    @PostMapping("/relatory/export")
+    public ResponseEntity<InputStreamResource> exportRelatory(
+            @RequestBody RelatoryFilterDTO filter) {
+        return ResponseEntity.ok(ticketService.exportRelatory(filter));
     }
 }
