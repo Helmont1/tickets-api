@@ -1,2 +1,2 @@
 INSERT INTO Status (status_name)
-VALUES ('Open'), ('Pending'), ('On Hold'), ('Solved'), ('Closed');
+VALUES ('Aberto'), ('Em andamento'), ('Aguardando Cliente'), ('Resolvido'), ('Fechado');
