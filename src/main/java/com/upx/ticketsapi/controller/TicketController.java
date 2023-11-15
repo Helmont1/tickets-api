@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upx.ticketsapi.config.response.SuccessResponse;
 import com.upx.ticketsapi.model.Ticket;
+import com.upx.ticketsapi.payload.RelatoryDTO;
+import com.upx.ticketsapi.payload.RelatoryFilterDTO;
 import com.upx.ticketsapi.payload.TicketDTO;
 import com.upx.ticketsapi.service.TicketService;
 import com.upx.ticketsapi.util.SuccessResponseUtil;
@@ -70,5 +72,12 @@ public class TicketController {
             @RequestBody List<Integer> statusIds) {
         return SuccessResponseUtil.okResponse(ticketService.getActiveTicketsByUser(
                 PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy)), userId, statusIds));
+    }
+
+    @RolesAllowed("generate-relatory")
+    @PostMapping("/relatory")
+    public ResponseEntity<SuccessResponse<RelatoryDTO>> generateRelatory(
+            @RequestBody RelatoryFilterDTO filter) {
+        return SuccessResponseUtil.okResponse(ticketService.generateRelatory(filter));
     }
 }

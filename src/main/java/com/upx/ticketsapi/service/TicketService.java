@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.upx.ticketsapi.exception.NotFoundException;
 import com.upx.ticketsapi.model.Ticket;
+import com.upx.ticketsapi.payload.RelatoryDTO;
+import com.upx.ticketsapi.payload.RelatoryFilterDTO;
 import com.upx.ticketsapi.payload.TicketDTO;
 import com.upx.ticketsapi.repository.TicketRepository;
 
@@ -55,5 +57,9 @@ public class TicketService {
 
     public Page<Ticket> getActiveTicketsByUser(PageRequest pageRequest, Integer userId, List<Integer> statusIds) {
         return ticketRepository.findActiveTicketsByUser(pageRequest, userId, statusIds);
+    }
+
+    public RelatoryDTO generateRelatory(RelatoryFilterDTO filter) {
+        return ticketRepository.findRelatoryByFilter(filter);
     }
 }

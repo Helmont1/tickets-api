@@ -19,6 +19,7 @@ import com.upx.ticketsapi.payload.UserDTO;
 import com.upx.ticketsapi.service.UserService;
 import com.upx.ticketsapi.util.SuccessResponseUtil;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.security.RolesAllowed;
 
 @RestController
@@ -30,6 +31,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "Get a user by id. Requires 'get-users' role.")
     @GetMapping("/{userId}")
     @RolesAllowed("get-users")
     public ResponseEntity<SuccessResponse<User>> getOne(@PathVariable Integer userId) {
@@ -37,6 +39,7 @@ public class UserController {
         return SuccessResponseUtil.okResponse(user);
     }
 
+    @Operation(summary = "Create a new user. Requires 'create-users' role.")
     @PostMapping
     @RolesAllowed("create-users")
     public ResponseEntity<SuccessResponse<User>> create(
@@ -44,6 +47,7 @@ public class UserController {
         return SuccessResponseUtil.createdResponse(userService.createUser(user));
     }
 
+    @Operation(summary = "Register a keycloak id to a user. does not require any role.")
     @PostMapping("/keycloak")
     public ResponseEntity<SuccessResponse<User>> registerKeycloakId(
             @RequestBody Integer userId,

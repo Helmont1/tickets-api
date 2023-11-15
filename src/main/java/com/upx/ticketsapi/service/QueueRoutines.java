@@ -6,17 +6,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class QueueRoutines {
     private final UserService userService;
+    private final TeamUserService teamUserService;
 
-    public QueueRoutines( UserService userService) {
+    public QueueRoutines(UserService userService, TeamUserService teamUserService) {
         this.userService = userService;
+        this.teamUserService = teamUserService;
     }
 
-    @Scheduled(fixedRate = 1500000)
+    @Scheduled(cron = "0 0 0 * * *")
     public void checkIfUsersNeedToGoToQueue() {
         try {
             userService.getToQueue().forEach(userService::sendToQueue);
         } catch(Exception ignored) {
             // on purpose
         }
-    }   
+    } 
+    
+    // @Scheduled(cron = "0 0 0 * * *")
+    // public void calculateTicket
 }
